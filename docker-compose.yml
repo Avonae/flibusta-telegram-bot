@@ -10,7 +10,9 @@ services:
     env_file:
        - ".env"
     environment:
+      DB_USER: $DB_USER
       DB_PASS: $DB_PASS
+      DB_NAME: $DB_NAME
     restart: always
     ports:
       - 5432:5432
@@ -29,6 +31,9 @@ services:
     restart: always
     env_file:
       - ".env"
+    environment:
+      POSTGRES_DB_USER: $DB_USER
+      POSTGRES_DB_PASS: $DB_PASS
     volumes:
       - .:/src
     # Бот стартует после запуска базы
