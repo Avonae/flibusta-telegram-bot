@@ -15,7 +15,8 @@ from utils.utils import get_message_text
 async def find_books(message: types.Message):
 
     book_name = await get_message_text(message, method='book')
-    if not book_name: return
+    if not book_name:
+        return
 
     url = f'http://flibusta.is//booksearch?ask={message.text}&chb=on'
 
@@ -28,7 +29,7 @@ async def find_books(message: types.Message):
         await message.answer(current_page_text, reply_markup=get_small_keyboard(
             count_pages=len(books_pages), key=current_book_hash, method='book'))
 
-        if data_from_db: # Обновляем в БД данные по доступным книгам
+        if data_from_db:  # Обновляем в БД данные по доступным книгам
             updated_list_pages = await get_from_request_pages(message.chat, func=search_books, method='book', url=url)
             await db.update_book_pages(current_book_hash, updated_list_pages, table_name='book_pages')
 
@@ -43,7 +44,8 @@ async def show_chosen_page(call: types.CallbackQuery, callback_data: dict):
     current_page = int(callback_data.get('page'))
     current_page_text = get_page(items_list=books_lst, page=current_page)
 
-    markup = get_small_keyboard(count_pages=len(books_lst), key=current_book, page=current_page, method='book')
+    markup = get_small_keyboard(count_pages=len(
+        books_lst), key=current_book, page=current_page, method='book')
     try:
         await call.message.edit_text(current_page_text, reply_markup=markup)
     except MessageNotModified:

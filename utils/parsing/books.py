@@ -34,7 +34,8 @@ def parsing_formats(soup):
     ul = soup.find('select', id='useropt')
     if ul:
         # Проверка на наличие fb2/epub/mobi
-        formats_from_page = [elem.text for elem in ul if elem.text in formats_list]
+        formats_from_page = [
+            elem.text for elem in ul if elem.text in formats_list]
     else:
         # Проверка на наличие pdf/djvu/единственных вариантов fb2|mobi|epub и прочих файлов
         ul = soup.find('div', id='main').find_all('a')
@@ -52,7 +53,8 @@ def description(soup):
     author = soup.find('h1', class_='title').find_next().find_next().text
     book = soup.find('h1', class_='title').text
     book = book.split()[:-1]
-    book = ' '.join(book).replace('"', '').replace("'", '')  # убираем скобки с названия, т.к. выдает ошибку при скачке
+    # убираем скобки с названия, т.к. выдает ошибку при скачке
+    book = ' '.join(book).replace('"', '').replace("'", '')
     text = text.replace("'", '"')
     author = author.replace("'", '"')
     if not text:

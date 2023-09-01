@@ -5,7 +5,6 @@ from utils.pages.strings import no_result_message
 from utils.parsing.books import parsing_formats, description
 
 
-
 async def get_book_description(link):
     '''
     Проверяем есть ли описание к книге в БД, если нет - парсим и добавляем в БД
@@ -31,9 +30,9 @@ async def get_book_description(link):
         formats = ':'.join(formats_list)
         await db.insert_book(book=book, link=link, author=author, formats=formats, description=descr)
 
-    descr = descr[:3*1000].replace('<', '(').replace('>', ')') # Ограничение на длинну текста и убраны скобки, чтобы не падал бот при выводе
+    # Ограничение на длинну текста и убраны скобки, чтобы не падал бот при выводе
+    descr = descr[:3*1000].replace('<', '(').replace('>', ')')
     return book, author, formats_list, descr
-
 
 
 async def create_list_choices(message: types.Message):
