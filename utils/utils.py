@@ -50,12 +50,11 @@ def create_current_name(chat_type: str, name: str, flag=False):
     return current_item_hash
 
 
-
 async def check_link_for_channel(link: str, message: types.Message):
     '''
     Проверка ссылки для публикации в канале
     '''
-    url = f'http://flibusta.is{link}'
+    url = f'https://flibusta.is{link}'
     link = message.text.replace("_", '/')
 
     if link.startswith('/a') or link.startswith('/series'):
@@ -92,7 +91,6 @@ def check_link_from(message: types.Message):
     else:
         link = check_link(message.text)
     return link
-
 
 
 def replace_symbols(value):

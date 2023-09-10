@@ -18,7 +18,7 @@ async def find_books(message: types.Message):
     if not book_name:
         return
 
-    url = f'http://flibusta.is//booksearch?ask={message.text}&chb=on'
+    url = f'https://flibusta.is//booksearch?ask={message.text}&chb=on'
 
     current_book_hash = create_current_name(message.chat.type, book_name)
     books_pages, data_from_db = await get_list_pages(current_book_hash, message.chat, url, method='book', func=search_books)

@@ -26,7 +26,7 @@ def get_callback_data(callback_data: dict):
 async def download_book(call: types.CallbackQuery, callback_data: dict):
     format_file, link = get_callback_data(callback_data)
 
-    url = f'http://flibusta.is{link}/{format_file}'
+    url = f'https://flibusta.is{link}/{format_file}'
     book, author, *args = await get_book_description(link)
 
     file_id = await db.select_file_id(link=link, format=format_file)

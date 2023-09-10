@@ -13,7 +13,7 @@ async def get_book_description(link):
     '''
     from loader import db, bot
 
-    url = f'http://flibusta.is{link}'
+    url = f'https://flibusta.is{link}'
     data = await db.select_book(link=link)
 
     if data and data.get('description'):
@@ -40,7 +40,7 @@ async def create_list_choices(message: types.Message):
     Возвращает список вариантов для инлайн клавиатуры в main_handler
     :return list of buttons
     '''
-    url = f'http://flibusta.is//booksearch?ask={message.text}&chs=on&cha=on&chb=on'
+    url = f'https://flibusta.is//booksearch?ask={message.text}&chs=on&cha=on&chb=on'
     from loader import bot
     soup = await bot.get('session').get_soup(url, chat=message.chat)
 

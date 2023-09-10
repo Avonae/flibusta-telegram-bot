@@ -15,7 +15,9 @@ async def on_shutdown(dp: Dispatcher):
 
 
 async def main(dispatcher):
-    import middlewares, filters, handlers
+    import middlewares
+    import filters
+    import handlers
     import logging.config
     from utils.set_bot_command import set_default_commands, set_admin_commands, set_group_commands
     from config import logger_config

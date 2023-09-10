@@ -1,12 +1,11 @@
 import numpy as np
 
 
-
-
 def find_pagination(soup):
     # Проверяем наличие пагинации
     try:
-        res = soup.find('div', class_='item-list').find('ul', class_='pager').find_all('li')
+        res = soup.find('div', class_='item-list').find('ul',
+                                                        class_='pager').find_all('li')
     except AttributeError:
         return None
     pagination_lst = np.array([i.text for i in res if i.text.isdigit()])[:-1]
@@ -38,16 +37,18 @@ async def series_books(soup, link):
     if pagination_lst is not None:
         # Если есть пагинация - добавляем все книги со всех страниц
         for page in pagination_lst:
-            url = f'http://flibusta.is{link}?page={page}'
+            url = f'https://flibusta.is{link}?page={page}'
             soup = await bot.get('session').get_soup(url)
-            res = soup.find('div', id='main').find_all('form', action='/mass/download')
+            res = soup.find('div', id='main').find_all(
+                'form', action='/mass/download')
             for items in res:
                 for item in items.find_all('a'):
                     href = item.get('href')
                     if href.startswith('/b/') and not href.endswith(('download', 'read', 'mail')):
                         series_dict[href] = item.text.replace("'", '"')
     else:
-        res = soup.find('div', id='main').find_all('form', action='/mass/download')
+        res = soup.find('div', id='main').find_all(
+            'form', action='/mass/download')
         for items in res:
             for item in items.find_all('a'):
                 link = item.get('href')

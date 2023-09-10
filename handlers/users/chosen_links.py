@@ -17,7 +17,7 @@ from utils.utils import check_link, check_link_from
 async def chosen_link_author(message: types.Message):
     # Ловим линк и выводим доступные варинаты языков на которых написаны книги
     link = check_link(message.text)
-    url = f'http://flibusta.is{link}&lang='
+    url = f'https://flibusta.is{link}&lang='
 
     data = await db.get_author_language(link, message.chat.type)
 

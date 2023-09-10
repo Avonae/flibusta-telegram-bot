@@ -22,10 +22,12 @@ from utils.utils import get_message_text
 async def series_command(message: types.Message):
     # Все доступные книжные серии
     series_name = await get_message_text(message, method='series')
-    if not series_name: return
-    url = f'http://flibusta.is/booksearch?ask={series_name}&chs=on'
+    if not series_name:
+        return
+    url = f'https://flibusta.is/booksearch?ask={series_name}&chs=on'
 
-    current_series_hash = create_current_name(message.chat.type, series_name.title())
+    current_series_hash = create_current_name(
+        message.chat.type, series_name.title())
     series_pages, data_from_db = await get_list_pages(current_series_hash, message.chat, url, method='series',
                                                       func=search_series)
     if series_pages:
@@ -45,14 +47,16 @@ async def series_command(message: types.Message):
 async def chosen_link_series(message: types.Message):
     # Все книги выбранной книжной серии
     link = check_link(message.text)
-    url = f'http://flibusta.is{link}?pages='
+    url = f'https://flibusta.is{link}?pages='
 
-    current_series_link_hash = create_current_name(message.chat.type, link, flag=True)
+    current_series_link_hash = create_current_name(
+        message.chat.type, link, flag=True)
 
     book_pages = await get_series_pages(current_series_link_hash, message.chat, url, link)
     if book_pages:
         series_pages, series_info, data_from_db = book_pages
-        current_page_text = get_page(items_list=series_pages, series_lst=series_info)
+        current_page_text = get_page(
+            items_list=series_pages, series_lst=series_info)
 
         await message.answer(current_page_text, reply_markup=get_big_keyboard(
             count_pages=len(series_pages), key=current_series_link_hash, method='series_books'))
@@ -71,7 +75,8 @@ async def show_chosen_page(call: types.CallbackQuery, callback_data: dict):
         return await call.answer()
     current_series_name, series_books_pages = data_pages
     current_page = int(callback_data.get('page'))
-    current_page_text = get_page(items_list=series_books_pages, page=current_page)
+    current_page_text = get_page(
+        items_list=series_books_pages, page=current_page)
 
     markup = get_small_keyboard(
         count_pages=len(series_books_pages), key=current_series_name, page=current_page, method='series')
